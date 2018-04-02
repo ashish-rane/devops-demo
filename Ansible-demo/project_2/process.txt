@@ -1,0 +1,9 @@
+install python-pip using apt-get
+install the boto library and awscli on the ansible machine using pip
+
+Create a new IAM user in AWS
+Configure Credentials in ~/.aws/Credentials
+import ssh keypair
+> aws ec2 import-key-pair --key-name ansible --public-key-material file://~/.ssh/id_rsa.pub
+
+
