@@ -1,0 +1,65 @@
+Configuration Management Tools 
+- Basically to make sure the correct versioned software and configuration gets deployed on to the target
+machines. Controlled deployment.
+
+- Tools: Ansible (deploy over SSH, no daemon) 
+- Puppet , Chef, Saltstack (Client-Server, daemon/agent running on target machines)
+  Also the state of the deployments (categories, versions are stored on the server)
+
+Architecture
+  - Ansible has ochestrator machine where ansible is installed.
+  - this is where the project software and configuration files will be stored.
+  - also this is where our playbooks are stored.
+  - it also has a inventory file which list all the target machines where the playbooks will be run to
+    deploy software and configuration.
+  - it uses password-less SSH to log on to the target machines and then runs the tasks on that machine
+    mentioned in the 
+    playbook which could be running a shell script, or using apt-get to install supporting software 
+    and many other things. 
+ 
+ On Ansible machine
+  > sudo apt-get install ansible
+  
+  - intial setup requires creating inventory file
+    >vim hosts 
+  - creating public private key pair. private key on ansible machine is created under 
+    "/home/vagrant/.ssh/id_rsa"
+    >ssh-keygen
+    
+  - copy public key /home/vagrant/.ssh/id_rsa.pub into clipboard
+  - ssh into target machine
+  > echo 'clipboard contents' > /root/.ssh/authorized_keys
+
+  - ssh-agent sends our id_rsa private key automatically so we dont need to specify it as argument
+   to each ansible command.
+   > ssh-agent bash
+   > ssh-add ~/.ssh/id_rsa
+   NOTE: We can also add the above commands to .bash_profile so that its set for a newly opened ssh session.
+
+   - Check inventory connectivity
+   >ansible -i hosts -u root -m ping all    
+
+Ansible-playbook
+- its a file which defines variables used in configuration files. These variables can be referenced
+  in other parts of the playbook
+- tasks to execute on target machines (like apt module or template module : using defined variables in this file to be 
+    substituted in the specified template file jinja2 template and then copied to the target machine.
+- handlers to perform stuff from within a task.(using notify module)
+
+Running a playbook (on the ansible machine)
+>ansible-playbook -i hosts -u root nginx.yml (where yml file is the playbook)
+
+Running Ansible in vagrant 
+ - in vagrant file add
+   ansible.playbook=<path to playbook.yml>
+
+Roles
+ - used assign roles to hosts or group of hosts. 
+ - split the playbook into smaller files instead of one file.
+ - multiple roles can be assigned to single host (eg: Webserver and DB server)
+ - ansible looks by default for main.yml files
+
+ eg: /roles/Webserver/handlers/main.yml
+     /roles/Webserver/tasks/main.yml
+     /roles/Webserver/templates/nginx.conf.j2
+     /roles/Webserver/vars/main.yml

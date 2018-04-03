@@ -1,0 +1,25 @@
+
+/site.yml ( Master playbook that simply includes other playbooks)
+/inventory/staging.hosts
+/inventory/prod.hosts
+/tiers/webservers.yml
+/tiers/dbservers.yml
+/library/ - optional modules
+/filter_plugins - 
+/group_vars/group1 - this is file whose name is same as the group name in the inventory file.
+/group_vars/group2
+/host_vars/hostname1 - this is a file whose name is the target hostname
+/host_vars/hostname2
+
+/roles/common/
+/roles/webserver/
+/roles/database/
+
+Each of the above roles folders will have the following structure
+/roles/<rolename>/tasks/
+/roles/<rolename>/handlers/
+/roles/<rolename>/templates/
+/roles/rolename>/files/ - any files that need to be copied to target machines.
+/roles/<rolename>/vars/
+/roles/<rolename>/defaults/ - define variable default values if not defined in vars directory
+/roles/<rolename>/meta/ - define role dependencies.

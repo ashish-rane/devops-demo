@@ -1,0 +1,9 @@
+---
+- name: install nginx
+  apt: name=nginx state=latest
+- name: ensure nginx is running 
+  service: name=nginx state=started enabled=yes
+- name: write the nginx conf
+  template: src=templates/xyz.conf.j2 dest=/etc/nginx.con
+  notify:
+  - restart nginx 

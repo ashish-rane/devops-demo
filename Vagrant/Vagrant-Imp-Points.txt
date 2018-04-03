@@ -20,10 +20,10 @@ Steps
 >vagrant init ubuntu/trusty64 (creates a vagrant file)
 
 2: Start the box
->vagrant up --provider virtualbox
+>vagrant up --provider virtualbox <machine_name>
 
 3: SSH into the box (we can access the folder that contains vagrantfile from guest machine)
->vagrant ssh
+>vagrant ssh <machine_name>
 
 4: Save current state
 >vagrant suspend

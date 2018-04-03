@@ -1,9 +1,37 @@
-install python-pip using apt-get
-install the boto library and awscli on the ansible machine using pip
+To provision on AWS using ansible
 
+
+
+
+
+
+For AWS we dont need a static inventory files since the IP address will change everytime we 
+stop and start the instances.
+Instead we tell ansible to build the inventory dynamically using script.
+>ansible-playbook -i ec2.py ( The python file can be downloaded from ansible website)
+
+On AWS 
 Create a new IAM user in AWS
-Configure Credentials in ~/.aws/Credentials
+Configure Credentials in ~/.aws/Credentials (The credentials are generated using awscli and used by install
+ to access your AWS account)
+
+ - Create user (Generate access key for user which allows us to access aws using api) 
+   - Copy the security credentials into ~/.aws/credentials
+ - Create a group - Give admin rights to this group
+ - assign user to group
+
+On Ansible machine:
+>sudo apt-get update && sudo apt-get install python-pip
+>sudo pip install boto awscli
+> aws configure - this will generate a file ~/.aws/config and ~/.aws/credentials
+
 import ssh keypair
 > aws ec2 import-key-pair --key-name ansible --public-key-material file://~/.ssh/id_rsa.pub
 
+Playbook modifications
+- To find the values of Subnet and security group go online to AWS console and look under VPC.
 
+>vim hosts => [localhost] 127.0.0.1
+
+Run Playbook
+>ansible-playbook -i hosts ec2.yml

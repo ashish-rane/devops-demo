@@ -1,0 +1,6 @@
+[webservers]
+10.20.30.40
+
+[databases]
+10.20.30.60
+db-server-prod-1

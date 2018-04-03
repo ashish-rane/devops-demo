@@ -1,0 +1,5 @@
+---
+- include: tiers/webservers.yml
+- include: tiers/database.yml
+- include: tiers/deploy_app.yml
+
