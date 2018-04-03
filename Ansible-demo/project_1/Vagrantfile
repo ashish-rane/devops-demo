@@ -1,15 +1,18 @@
 Vagrant.configure(2) do |config|
  config.vm.define "webserver" do |webserver|
   webserver.vm.box = "ubuntu/trusty64"
-  webserver.vm.network "private_network", ip: "192.168.0.20"
+  webserver.vm.network "private_network", ip: "192.168.1.20"
   webserver.vm.hostname = "webserver"
  end
  #config.vm.provision: shell, path: bootstrap.sh
  config.vm.define "ansible" do |ansible|
   ansible.vm.box = "ubuntu/trusty64"
-  webserver.vm.network "private_network", ip: "192.168.0.30"
-  webserver.vm.hostname = "ansible"
+  ansible.vm.network "private_network", ip: "192.168.1.30"
+  ansible.vm.hostname = "ansible"
   # to run ansible playbook as part of vagrant provisioning uncomment the following line
   #ansible.playbook=playbooks/nginx.yml
  end
+end
+
+
  
