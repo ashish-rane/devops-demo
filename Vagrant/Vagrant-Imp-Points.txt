@@ -1,0 +1,49 @@
+
+Develop->Build(Automated)->Test(Automated)->Release(Automated)->Deploy(Provisioning + Deploy)
+
+- The Build-Test-Release is Continous Integration
+- Provisioning is creating machines and install supporting software 
+(like Database, Webserver, JDK, .NET framework etc..)
+- Deploy is install product software and configuration on the provisioned machines.
+
+- Provisioning and Deployments can be automated using Continous Delivery Toolchain
+
+
+Vagrant - provisioning of on-premise provisioning of development machines.
+OpenStack - provisioning of on-premise staging and  production machines
+AWS - Cloud Provisioning for staging and production machines.
+
+Vagrant wraps around VMWare, VirtualBox, Docker and Hyper-V (out of box VirtualBox)
+
+Steps 
+1: Download a base box 
+>vagrant init ubuntu/trusty64 (creates a vagrant file)
+
+2: Start the box
+>vagrant up --provider virtualbox
+
+3: SSH into the box (we can access the folder that contains vagrantfile from guest machine)
+>vagrant ssh
+
+4: Save current state
+>vagrant suspend
+
+5. Stop the machine
+>vagrant halt
+
+6. Destroy the machine ( this will not delete the base box and vagrant file, only delete disk files)
+>vagrant destroy (we can still start the machine with "vagrant up" but this will rebuild the machine
+ from the base image)
+
+
+VagrantFile:
+- it is the root of your project
+- describes the kind of machine and resources needed like CPU, memory and software to install
+- it must be included in version control.
+
+Steps to create a vagrant file
+1. make a new project directory
+2. inside this directory >vagrant init (this creates a generic vagrant file 
+   which we can then modify depending on the requirements)
+
+Vagrant automatically syncs the files under the project root directory (where the vagrant file resides  )
